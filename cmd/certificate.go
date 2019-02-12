@@ -13,9 +13,10 @@ func CertificateSubcommands() []cli.Command {
 			Action: certificate.ListCertificate,
 		},
 		{
-			Name:   "read",
-			Flags:  certificate.ReadCertificateFlag(),
-			Action: certificate.ReadCertificate,
+			Name:        "read",
+			Description: "see more info: https://www.vaultproject.io/api/secret/pki/index.html#read-certificate",
+			Flags:       certificate.ReadCertificateFlag(),
+			Action:      certificate.ReadCertificate,
 		},
 		{
 			Name:        "generate",

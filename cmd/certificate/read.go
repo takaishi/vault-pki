@@ -9,10 +9,12 @@ import (
 func ReadCertificateFlag() []cli.Flag {
 	flag := []cli.Flag{
 		cli.StringFlag{
-			Name: "pki",
+			Name:  "pki",
+			Usage: "PKI secret engine name.",
 		},
 		cli.StringFlag{
-			Name: "serial",
+			Name:  "serial",
+			Usage: "Srial of the key to read.",
 		},
 	}
 
