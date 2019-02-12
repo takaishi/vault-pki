@@ -43,7 +43,7 @@ func Generate(c *cli.Context) error {
 		"key_bites":            "4096",
 		"exclude_cn_from_sans": true,
 	}
-	_, err = client.Logical().Write(fmt.Sprintf("/%s/root/generate/internal", c.String("pki)")), data)
+	_, err = client.Logical().Write(fmt.Sprintf("/%s/root/generate/internal", c.String("pki")), data)
 	if err != nil {
 		return err
 	}

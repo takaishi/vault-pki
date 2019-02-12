@@ -8,9 +8,14 @@ import (
 func RootSubcommands() []cli.Command {
 	commands := []cli.Command{
 		{
-			Name:   "create",
+			Name:   "generate",
 			Flags:  root.GenerateFlags(),
 			Action: root.Generate,
+		},
+		{
+			Name:   "delete",
+			Flags:  root.DeleteFlags(),
+			Action: root.Delete,
 		},
 	}
 
