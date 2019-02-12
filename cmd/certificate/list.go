@@ -16,7 +16,8 @@ import (
 func ListCertificateFlags() []cli.Flag {
 	flag := []cli.Flag{
 		cli.StringFlag{
-			Name: "pki",
+			Name:  "pki",
+			Usage: "PKI secret engine name.",
 		},
 	}
 

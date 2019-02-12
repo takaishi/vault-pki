@@ -8,9 +8,10 @@ import (
 func CertificateSubcommands() []cli.Command {
 	commands := []cli.Command{
 		{
-			Name:   "list",
-			Flags:  certificate.ListCertificateFlags(),
-			Action: certificate.ListCertificate,
+			Name:        "list",
+			Description: "see more info: https://www.vaultproject.io/api/secret/pki/index.html#list-certificates , https://www.vaultproject.io/api/secret/pki/index.html#read-certificate",
+			Flags:       certificate.ListCertificateFlags(),
+			Action:      certificate.ListCertificate,
 		},
 		{
 			Name:        "read",
