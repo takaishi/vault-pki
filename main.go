@@ -28,6 +28,11 @@ func main() {
 			Usage:       "operate URLs",
 			Subcommands: cmd.URLSubcommands(),
 		},
+		{
+			Name:        "role",
+			Usage:       "operate Role",
+			Subcommands: cmd.RoleSubcommands(),
+		},
 	}
 
 	err := app.Run(os.Args)
