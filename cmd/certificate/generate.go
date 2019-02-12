@@ -14,25 +14,24 @@ import (
 func GenerateCertificateFlags() []cli.Flag {
 	flag := []cli.Flag{
 		cli.StringFlag{
-			Name: "pki",
-		},
-		cli.StringFlag{
-			Name: "role",
-		},
-		cli.StringFlag{
-			Name: "common_name",
-		},
-		cli.StringFlag{
-			Name: "organization",
+			Name:  "common_name",
+			Usage: "CN for the certificate.",
 		},
 		cli.StringSliceFlag{
-			Name: "alt_names",
+			Name:  "alt_names",
+			Usage: "Subject Alternaive Names.",
 		},
 		cli.StringSliceFlag{
-			Name: "ip_sans",
+			Name:  "ip_sans",
+			Usage: "IP Subject Alternative Names.",
+		},
+		cli.StringSliceFlag{
+			Name:  "uri_sans",
+			Usage: "URI Subject Alternative Names.",
 		},
 		cli.StringFlag{
-			Name: "ttl",
+			Name:  "ttl",
+			Usage: "TIme To Live.",
 		},
 	}
 
@@ -40,6 +39,9 @@ func GenerateCertificateFlags() []cli.Flag {
 }
 
 func GenerateCertificate(c *cli.Context) error {
+	pki := c.Args()[0]
+	role := c.Args()[1]
+
 	client, err := vault.NewClient()
 	if err != nil {
 		return err
@@ -50,20 +52,24 @@ func GenerateCertificate(c *cli.Context) error {
 	if c.String("common_name") != "" {
 		data["common_name"] = c.String("common_name")
 	}
-	if c.String("organization") != "" {
-		data["organization"] = c.String("organization")
-	}
+
 	if len(c.StringSlice("alt_names")) != 0 {
 		data["alt_names"] = strings.Join(c.StringSlice("alt_names"), ",")
 	}
+
 	if len(c.StringSlice("ip_sans")) != 0 {
 		data["ip_sans"] = strings.Join(c.StringSlice("ip_sans"), ",")
 	}
+
+	if len(c.StringSlice("uri_sans")) != 0 {
+		data["uri_sans"] = strings.Join(c.StringSlice("uri_sans"), ",")
+	}
+
 	if c.String("ttl") != "" {
 		data["ttl"] = c.String("ttl")
 	}
 
-	rawCertData, err := client.Logical().Write(fmt.Sprintf("%s/issue/%s", c.String("pki"), c.String("role")), data)
+	rawCertData, err := client.Logical().Write(fmt.Sprintf("%s/issue/%s", pki, role), data)
 	if err != nil {
 		return err
 	}
