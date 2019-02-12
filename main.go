@@ -23,6 +23,11 @@ func main() {
 			Usage:       "operate root CA",
 			Subcommands: cmd.RootSubcommands(),
 		},
+		{
+			Name:        "url",
+			Usage:       "operate URLs",
+			Subcommands: cmd.URLSubcommands,
+		},
 	}
 
 	err := app.Run(os.Args)
