@@ -22,6 +22,11 @@ func CertificateSubcommands() []cli.Command {
 			Flags:  certificate.GenerateCertificateFlags(),
 			Action: certificate.GenerateCertificateFlags,
 		},
+		{
+			Name:   "revoke",
+			Flags:  certificate.RevokeCertificateFlags(),
+			Action: certificate.RevokeCertificateFlags,
+		},
 	}
 
 	return commands
