@@ -39,7 +39,7 @@ func GenerateCertificateFlags() []cli.Flag {
 	return flag
 }
 
-func CreateCertificate(c *cli.Context) error {
+func GenerateCertificate(c *cli.Context) error {
 	client, err := vault.NewClient()
 	if err != nil {
 		return err
