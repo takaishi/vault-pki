@@ -33,6 +33,11 @@ func main() {
 			Usage:       "operate Role",
 			Subcommands: cmd.RoleSubcommands(),
 		},
+		{
+			Name:        "certificate",
+			Usage:       "operate Certificate",
+			Subcommands: cmd.CertificateSubcommands(),
+		},
 	}
 
 	err := app.Run(os.Args)
