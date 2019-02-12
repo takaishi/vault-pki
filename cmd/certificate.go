@@ -69,6 +69,32 @@ func CertificateSubcommands() []cli.Command {
 			},
 		},
 		{
+			Name: "read",
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name: "pki",
+				},
+				cli.StringFlag{
+					Name: "serial",
+				},
+			},
+			Action: func(c *cli.Context) error {
+				client, err := vault.NewClient()
+				if err != nil {
+					return err
+				}
+
+				secret, err := client.Logical().Read(fmt.Sprintf("%s/cert/%s", c.String("pki"), c.String("serial")))
+				if err != nil {
+					return err
+				}
+				fmt.Println(secret.Data["certificate"].(string))
+
+				return nil
+			},
+		},
+
+		{
 			Name: "create",
 			Flags: []cli.Flag{
 				cli.StringFlag{
