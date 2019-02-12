@@ -20,14 +20,14 @@ func CertificateSubcommands() []cli.Command {
 		{
 			Name:        "generate",
 			Description: "see more info: https://www.vaultproject.io/api/secret/pki/index.html#generate-certificate",
-			ArgsUsage:   "[pki] [role]",
 			Flags:       certificate.GenerateCertificateFlags(),
 			Action:      certificate.GenerateCertificate,
 		},
 		{
-			Name:   "revoke",
-			Flags:  certificate.RevokeCertificateFlags(),
-			Action: certificate.RevokeCertificate,
+			Name:        "revoke",
+			Description: "see more info: https://www.vaultproject.io/api/secret/pki/index.html#revoke-certificate",
+			Flags:       certificate.RevokeCertificateFlags(),
+			Action:      certificate.RevokeCertificate,
 		},
 	}
 

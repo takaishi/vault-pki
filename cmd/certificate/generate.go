@@ -14,6 +14,14 @@ import (
 func GenerateCertificateFlags() []cli.Flag {
 	flag := []cli.Flag{
 		cli.StringFlag{
+			Name:  "pki",
+			Usage: "PKI secret engine name.",
+		},
+		cli.StringFlag{
+			Name:  "role",
+			Usage: "Name of role to create the certificate.",
+		},
+		cli.StringFlag{
 			Name:  "common_name",
 			Usage: "CN for the certificate.",
 		},
@@ -39,9 +47,6 @@ func GenerateCertificateFlags() []cli.Flag {
 }
 
 func GenerateCertificate(c *cli.Context) error {
-	pki := c.Args()[0]
-	role := c.Args()[1]
-
 	client, err := vault.NewClient()
 	if err != nil {
 		return err
@@ -69,7 +74,7 @@ func GenerateCertificate(c *cli.Context) error {
 		data["ttl"] = c.String("ttl")
 	}
 
-	rawCertData, err := client.Logical().Write(fmt.Sprintf("%s/issue/%s", pki, role), data)
+	rawCertData, err := client.Logical().Write(fmt.Sprintf("%s/issue/%s", c.String("pki"), c.String("role")), data)
 	if err != nil {
 		return err
 	}
