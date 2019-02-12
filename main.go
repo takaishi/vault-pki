@@ -26,7 +26,7 @@ func main() {
 		{
 			Name:        "url",
 			Usage:       "operate URLs",
-			Subcommands: cmd.URLSubcommands,
+			Subcommands: cmd.URLSubcommands(),
 		},
 	}
 
