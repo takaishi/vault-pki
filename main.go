@@ -18,6 +18,11 @@ func main() {
 			Usage:       "pki",
 			Subcommands: cmd.PkiSubcommands(),
 		},
+		{
+			Name:        "root",
+			Usage:       "operate root CA",
+			Subcommands: cmd.RootSubcommands(),
+		},
 	}
 
 	err := app.Run(os.Args)
