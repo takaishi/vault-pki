@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-func CreateCertificateFlags() []cli.Flag {
+func GenerateCertificateFlags() []cli.Flag {
 	flag := []cli.Flag{
 		cli.StringFlag{
 			Name: "pki",

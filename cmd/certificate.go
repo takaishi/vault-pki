@@ -18,9 +18,9 @@ func CertificateSubcommands() []cli.Command {
 			Action: certificate.ReadCertificate,
 		},
 		{
-			Name:   "create",
-			Flags:  certificate.CreateCertificateFlags(),
-			Action: certificate.CreateCertificateFlags,
+			Name:   "generate",
+			Flags:  certificate.GenerateCertificateFlags(),
+			Action: certificate.GenerateCertificateFlags,
 		},
 	}
 
