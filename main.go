@@ -14,6 +14,11 @@ func main() {
 
 	app.Commands = []cli.Command{
 		{
+			Name:        "ca",
+			Usage:       "ca",
+			Subcommands: cmd.CASubcommands(),
+		},
+		{
 			Name:        "pki",
 			Usage:       "pki",
 			Subcommands: cmd.PkiSubcommands(),
