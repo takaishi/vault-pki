@@ -1,6 +1,7 @@
 package certificate
 
 import (
+	"bytes"
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
@@ -8,7 +9,6 @@ import (
 	"github.com/pkg/errors"
 	"github.com/takaishi/vault-pki/vault"
 	"github.com/urfave/cli"
-	"math/big"
 	"os"
 	"strings"
 	"time"
@@ -57,30 +57,26 @@ func ListCertificate(c *cli.Context) error {
 
 		jst := time.FixedZone("Asia/Tokyo", 9*60*60)
 		notAfter := cert.NotAfter.In(jst)
-
-		serial := serialToString(cert.SerialNumber)
+		serial := strings.TrimSpace(GetHexFormatted(cert.SerialNumber.Bytes(), ":"))
 
 		data = append(data, []string{strings.Join(cert.Subject.Organization, ","), cert.Subject.CommonName, notAfter.Format(time.RFC3339), serial})
-	}
 
-	for _, v := range data {
-		table.Append(v)
+		for _, v := range data {
+			table.Append(v)
+		}
 	}
 	table.Render()
 
 	return nil
 }
 
-func serialToString(serial *big.Int) string {
-	r := []string{}
-	splitLen := 2
-	runes := []rune(fmt.Sprintf("%x", serial))
-	for i := 0; i < len(runes); i += splitLen {
-		if i+splitLen < len(runes) {
-			r = append(r, string(runes[i:(i+splitLen)]))
-		} else {
-			r = append(r, string(runes[i:]))
+func GetHexFormatted(buf []byte, sep string) string {
+	var ret bytes.Buffer
+	for _, cur := range buf {
+		if ret.Len() > 0 {
+			fmt.Fprintf(&ret, sep)
 		}
+		fmt.Fprintf(&ret, "%02x", cur)
 	}
-	return strings.Join(r, ":")
+	return ret.String()
 }
