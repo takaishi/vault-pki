@@ -102,8 +102,12 @@ require (
 	github.com/urfave/cli v1.20.0
 	github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2 // indirect
 	golang.org/x/crypto v0.0.0-20190320223903-b7391e95e576 // indirect
+	golang.org/x/lint v0.0.0-20190313153728-d0100b6bd8b3 // indirect
+	golang.org/x/net v0.0.0-20190320064053-1272bf9dcd53 // indirect
 	golang.org/x/oauth2 v0.0.0-20190319182350-c85d3e98c914 // indirect
+	golang.org/x/sys v0.0.0-20190318195719-6c81ef8f67ca // indirect
 	golang.org/x/time v0.0.0-20181108054448-85acf8d2951c // indirect
+	golang.org/x/tools v0.0.0-20190320215829-36c10c0a621f // indirect
 	google.golang.org/api v0.2.0 // indirect
 	google.golang.org/grpc v1.19.1 // indirect
 	gopkg.in/asn1-ber.v1 v1.0.0-20181015200546-f715ec2f112d // indirect
