@@ -7,7 +7,7 @@ BOLD=\033[1m
 default: test lint
 
 depsdev:
-	go get github.com/golang/lint/golint
+	go get golang.org/x/lint
 
 test:
 	@echo "$(INFO_COLOR)==> $(RESET)$(BOLD)Testing$(RESET)"
