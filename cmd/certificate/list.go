@@ -1,6 +1,7 @@
 package certificate
 
 import (
+	"bytes"
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
@@ -36,7 +37,7 @@ func ListCertificate(c *cli.Context) error {
 	}
 	data := [][]string{}
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"Organization", "CommonName", "Expire"})
+	table.SetHeader([]string{"Organization", "CommonName", "Expire", "SerialNumber"})
 
 	for _, key := range secret.Data["keys"].([]interface{}) {
 		secret, err := client.Logical().Read(fmt.Sprintf("%s/cert/%s", c.String("pki"), key))
@@ -56,14 +57,26 @@ func ListCertificate(c *cli.Context) error {
 
 		jst := time.FixedZone("Asia/Tokyo", 9*60*60)
 		notAfter := cert.NotAfter.In(jst)
+		serial := strings.TrimSpace(GetHexFormatted(cert.SerialNumber.Bytes(), ":"))
 
-		data = append(data, []string{strings.Join(cert.Subject.Organization, ","), cert.Subject.CommonName, notAfter.Format(time.RFC3339)})
-	}
+		data = append(data, []string{strings.Join(cert.Subject.Organization, ","), cert.Subject.CommonName, notAfter.Format(time.RFC3339), serial})
 
-	for _, v := range data {
-		table.Append(v)
+		for _, v := range data {
+			table.Append(v)
+		}
 	}
 	table.Render()
 
 	return nil
+}
+
+func GetHexFormatted(buf []byte, sep string) string {
+	var ret bytes.Buffer
+	for _, cur := range buf {
+		if ret.Len() > 0 {
+			fmt.Fprintf(&ret, sep)
+		}
+		fmt.Fprintf(&ret, "%02x", cur)
+	}
+	return ret.String()
 }
