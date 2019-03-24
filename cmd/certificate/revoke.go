@@ -12,11 +12,11 @@ func RevokeCertificateFlags() []cli.Flag {
 	flag := []cli.Flag{
 		cli.StringFlag{
 			Name:  "pki",
-			Usage: "PKI secret engine name.",
+			Usage: "(Required) PKI secret engine name.",
 		},
 		cli.StringFlag{
 			Name:  "serial",
-			Usage: "Serial number of the certificate to revoke. hyphen-separated or colon-separated.",
+			Usage: "(Required) Serial number of the certificate to revoke. hyphen-separated or colon-separated.",
 		},
 	}
 
