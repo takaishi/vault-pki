@@ -2,6 +2,8 @@ package certificate
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/takaishi/vault-pki/vault"
 	"github.com/urfave/cli"
 )
