@@ -5,8 +5,12 @@ env:
 go:
   - "1.12.x"
 
+install:
+  - echo $TRAVIS_GO_VERSION
 script:
   - make
+after_script:
+  - bash <(curl -s https://codecov.io/bash)
 
 # calls goreleaser
 deploy:
