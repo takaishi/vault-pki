@@ -11,8 +11,8 @@ depsdev:
 
 test:
 	@echo "$(INFO_COLOR)==> $(RESET)$(BOLD)Testing$(RESET)"
-	go test -v $(TEST) -timeout=30s -parallel=4
-	go test -race $(TEST)
+	go test -v $(TEST) -timeout=30s -parallel=4  -coverprofile=coverage.txt -covermode=count
+	go test -race $(TEST)  -coverprofile=coverage.txt -covermode=atomic
 
 lint: depsdev
 	@echo "$(INFO_COLOR)==> $(RESET)$(BOLD)Linting$(RESET)"
