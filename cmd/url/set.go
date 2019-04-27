@@ -31,7 +31,7 @@ func Set(c *cli.Context) error {
 	}
 
 	data := map[string]interface{}{
-		"issuing_certificates":    c.String("issuing_certificates"),
+		"issuing_certificates":    c.StringSlice("issuing_certificates"),
 		"crl_distribution_points": c.StringSlice("crl_distribution_points"),
 		"ocsp_servers":            c.StringSlice("ocsp_servers"),
 	}
