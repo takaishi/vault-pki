@@ -25,6 +25,10 @@ func GenerateCertificateFlags() []cli.Flag {
 			Name:  "common_name",
 			Usage: "CN for the certificate.",
 		},
+		cli.StringFlag{
+			Name:  "organization",
+			Usage: "O for the certificate.",
+		},
 		cli.StringSliceFlag{
 			Name:  "alt_names",
 			Usage: "Subject Alternaive Names.",
@@ -56,6 +60,10 @@ func GenerateCertificate(c *cli.Context) error {
 
 	if c.String("common_name") != "" {
 		data["common_name"] = c.String("common_name")
+	}
+
+	if c.String("organization") != "" {
+		data["organization"] = c.String("organization")
 	}
 
 	if len(c.StringSlice("alt_names")) != 0 {
