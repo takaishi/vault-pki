@@ -45,6 +45,9 @@ func GenerateCertificateFlags() []cli.Flag {
 			Name:  "ttl",
 			Usage: "TIme To Live.",
 		},
+		cli.BoolFlag{
+			Name: "exclude_cn_from_sans",
+		},
 	}
 
 	return flag
@@ -81,6 +84,8 @@ func GenerateCertificate(c *cli.Context) error {
 	if c.String("ttl") != "" {
 		data["ttl"] = c.String("ttl")
 	}
+
+	data["exclude_cn_from_sans"] = c.Bool("exclude_cn_from_sans")
 
 	rawCertData, err := client.Logical().Write(fmt.Sprintf("%s/issue/%s", c.String("pki"), c.String("role")), data)
 	if err != nil {
