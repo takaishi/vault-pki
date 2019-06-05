@@ -9,6 +9,7 @@ import (
 	"github.com/urfave/cli"
 	"io/ioutil"
 	"strings"
+	"text/template"
 )
 
 func GenerateCertificateFlags() []cli.Flag {
@@ -16,6 +17,12 @@ func GenerateCertificateFlags() []cli.Flag {
 		cli.StringFlag{
 			Name:  "pki",
 			Usage: "PKI secret engine name.",
+		},
+		cli.StringFlag{
+			Name: "certificate-path-format",
+		},
+		cli.StringFlag{
+			Name: "private-key-path-format",
 		},
 		cli.StringFlag{
 			Name:  "role",
@@ -98,7 +105,11 @@ func GenerateCertificate(c *cli.Context) error {
 
 	out := &bytes.Buffer{}
 	pem.Encode(out, &pem.Block{Type: "CERTIFICATE", Bytes: certData.Certificate.Raw})
-	err = ioutil.WriteFile(fmt.Sprintf("./%d.pem", certData.Certificate.SerialNumber), out.Bytes(), 0644)
+	certPath, err := certificatePath(certData, c.String("certificate-path-format"))
+	if err != nil {
+		return err
+	}
+	err = ioutil.WriteFile(certPath, out.Bytes(), 0644)
 	if err != nil {
 		return err
 	}
@@ -106,11 +117,47 @@ func GenerateCertificate(c *cli.Context) error {
 	out2 := &bytes.Buffer{}
 	b := &pem.Block{Type: "RSA PRIVATE KEY", Bytes: certData.PrivateKeyBytes}
 	pem.Encode(out2, b)
-	err = ioutil.WriteFile(fmt.Sprintf("./%d-key.pem", certData.Certificate.SerialNumber), out2.Bytes(), 0644)
+	privKeyPath, err := privateKeyPath(certData, c.String("private-key-path-format"))
+	if err != nil {
+		return err
+	}
+	err = ioutil.WriteFile(privKeyPath, out2.Bytes(), 0644)
 	if err != nil {
 		return err
 	}
 
 	return nil
 
+}
+
+func certificatePath(certData *certutil.ParsedCertBundle, format string) (string, error) {
+	var buf bytes.Buffer
+	defaultFormat := "./{{ .Certificate.SerialNumber }}.pem"
+
+	if format == "" {
+		format = defaultFormat
+	}
+	tmpl, err := template.New("path").Parse(format)
+	if err != nil {
+		return "", err
+	}
+	tmpl.Execute(&buf, certData)
+
+	return buf.String(), nil
+}
+
+func privateKeyPath(certData *certutil.ParsedCertBundle, format string) (string, error) {
+	var buf bytes.Buffer
+	defaultFormat := "./{{ .Certificate.SerialNumber }}-key.pem"
+
+	if format == "" {
+		format = defaultFormat
+	}
+	tmpl, err := template.New("path").Parse(format)
+	if err != nil {
+		return "", err
+	}
+	tmpl.Execute(&buf, certData)
+
+	return buf.String(), nil
 }
