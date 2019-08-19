@@ -39,6 +39,11 @@ func main() {
 			Subcommands: cmd.RoleSubcommands(),
 		},
 		{
+			Name:        "intermediate",
+			Usage:       "operate intermediate",
+			Subcommands: cmd.IntermediateSubcommands(),
+		},
+		{
 			Name:        "certificate",
 			Usage:       "operate Certificate",
 			Subcommands: cmd.CertificateSubcommands(),
